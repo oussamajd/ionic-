@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Bitcoin Tracker
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <ion-grid *ngIf="bitcoin$ ; else loading">
+    <ion-row justify-content-center>
+      <ion-col>
+        <ion-img style="height: 160px;" src='{{bitcoin$.image}}'></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col>
+        <div class="ion-text-center">
+          <h1 style="">BTC : {{bitcoin$.current_price}} {{selectedFiat}} </h1>
+          <div *ngIf="bitcoin$.price_change_percentage_24h>0">
+            <h3>The price is Up by {{bitcoin$.price_change_percentage_24h}}% in the last 24 Hours.</h3>
+          </div>
+          <div *ngIf="bitcoin$.price_change_percentage_24h <= 0">
+            <h3>The price is Down by {{bitcoin$.price_change_percentage_24h}}% in the last 24 Hours.</h3>
+          </div>
+          <div>
+            <h3> The current circulating supply is {{bitcoin$.circulating_supply}} coin.</h3>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row justify-content-center class="ion-mergin-vertical">
+      <ion-col class="ion-text-center">
+        <ion-button fill="outline" shape="round" (click)="changeFiat()">
+          <ion-icon slot="icon-only" name="refresh"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+
+    </ion-row>
+
+  </ion-grid>
+  <div justify-content-center>
+    <ng-template #loading>
+      <h2>Loading....</h2>
+    </ng-template>
+  </div>
+  <ion-item>
+  <ion-label>Select Fiat</ion-label>
+    <ion-select [(ngModel)]="selectedFiat" (ionChange)="changeFiat()">
+      <ion-select-option *ngFor="let fiat of fiats" value="{{fiat}}">{{fiat}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-content>
+
+<ion-footer>
+  <ion-item>
+<ion-tabs>
+  <ion-tab-bar slot="home">
+    <ion-tab-button routerLink="/home">
+      <ion-icon name="logo-bitcoin"></ion-icon>
+      <ion-label>Bitcoin</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button routerLink="/litecoin">
+      <ion-img src="assets/image/Litecoin.png" style="width: 20px;"></ion-img>
+      <ion-label>Litecoin</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button routerLink="/ethereum">
+      <ion-img src="assets/image/etherum.png" style="width: 40px;"></ion-img>
+      <ion-label>Ethereum</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button routerLink="/xrp">
+      <ion-img src="assets/image/xpr.png" style="width: 20px;"></ion-img>
+      <ion-label>XRP</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+  </ion-item>
+</ion-footer>
